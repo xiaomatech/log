@@ -1,0 +1,50 @@
+#modify
+cluster.name: es_cluster_1
+node.name: es-node-1
+network.host: 10.19.0.32
+discovery.zen.ping.unicast.hosts: ["10.19.0.97","10.19.0.98","10.19.0.99","10.19.0.100"]
+path.data: /data/elasticsearch
+path.logs: /data/logs
+
+
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.timeout: 100s
+discovery.zen.fd.ping_timeout: 100s
+discovery.zen.fd.ping_interval: 10s
+discovery.zen.fd.ping_retries: 10
+cluster.routing.allocation.disk.watermark.low: "95%"
+cluster.routing.allocation.disk.watermark.high: "95%"
+cluster.info.update.interval : "1m"
+
+## repository 配置
+#hdfs:
+#    uri:"hdfs://hdfs_es1:8020"
+#    #Hadoop file-system URI
+#    path:"some/path"
+#    #path with the file-system where data is stored/loaded
+#    conf.hdfs_config:"/etc/hadoop/conf/hdfs-site.xml"
+#    conf.hadoop_config:"/etc/hadoop/conf/core-site.xml"
+#    load_defaults:"true"
+#    #whether to load the default Hadoop configuration (default) or not
+#    compress:"false"
+#    # optional - whether to compress the metadata or not (default)
+#    chunk_size:"10mb"
+#    # optional - chunk size (disabled by default)
+# 禁用 jsm
+security.manager.enabled: false
+
+#tribe:
+#    ns:
+#        cluster.name: es_cluster_1002
+#        discovery.zen.ping.timeout: 100s
+#        discovery.zen.ping.multicast.enabled: false
+#        discovery.zen.ping.unicast.hosts: ["10.19.0.22","10.19.0.24",10.19.0.21"]
+#    wx:
+#        cluster.name: es_cluster_1003
+#        discovery.zen.ping.timeout: 100s
+#        discovery.zen.ping.multicast.enabled: false
+#        discovery.zen.ping.unicast.hosts: ["10.19.0.97","10.19.0.98","10.19.0.99","10.19.0.100"]
+#    blocks:
+#        write:    true
+#        metadata: true
+#    on_conflict: prefer_ns
