@@ -3,8 +3,8 @@
 version=5.1.1
 
 rpm -ivh https://artifacts.elastic.co/downloads/logstash/logstash-$version.rpm
-/usr/share/logstash/bin/logstash-plugin install --no-verify logstash/plugin/logstash-filter-referer-1.0.0.gem
-/usr/share/logstash/bin/logstash-plugin install --no-verify logstash/plugin/logstash-filter-ipip-2.0.0.gem
+/usr/share/logstash/bin/logstash-plugin install --no-verify ./logstash-filter-referer-1.0.0.gem
+/usr/share/logstash/bin/logstash-plugin install --no-verify ./logstash-filter-ipip-2.0.0.gem
 sudo yum install -y GeoIP-data
 mkdir -p /data/logs/logstash
 
