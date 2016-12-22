@@ -6,6 +6,9 @@ discovery.zen.ping.unicast.hosts: ["10.19.0.97","10.19.0.98","10.19.0.99","10.19
 path.data: /data/elasticsearch
 path.logs: /data/logs
 
+#index.analysis.analyzer.default.type: ik
+index.cache.field.type: soft
+index.cache.field.expire: 10m
 index.store.compress.stored: true 
 index.store.compress.tv: true
 indices.store.throttle.max_bytes_per_sec: 100mb
