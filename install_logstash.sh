@@ -15,5 +15,7 @@ source /etc/profile.d/logstash
 $JRUBY_HOME/bin/jruby -S $JRUBY_HOME/bin/gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 #$JRUBY_HOME/bin/jruby -S $JRUBY_HOME/bin/bundle config mirror.https://rubygems.org https://gems.ruby-china.org
 
+cp -r ./logstash/* /etc/logstash/
+
 #todo logstash多实例
 systemctl start logstash
