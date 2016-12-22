@@ -6,8 +6,9 @@ discovery.zen.ping.unicast.hosts: ["10.19.0.97","10.19.0.98","10.19.0.99","10.19
 path.data: /data/elasticsearch
 path.logs: /data/logs
 
-
+discovery.zen.minimum_master_nodes: 3
 discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.multicast.ping.enabled: false
 discovery.zen.ping.timeout: 100s
 discovery.zen.fd.ping_timeout: 100s
 discovery.zen.fd.ping_interval: 10s
@@ -15,6 +16,7 @@ discovery.zen.fd.ping_retries: 10
 cluster.routing.allocation.disk.watermark.low: "95%"
 cluster.routing.allocation.disk.watermark.high: "95%"
 cluster.info.update.interval : "1m"
+bootstrap.mlockall:true
 
 ## repository 配置
 #hdfs:
