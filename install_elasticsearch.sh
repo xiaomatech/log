@@ -10,5 +10,7 @@ rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ver
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --no-verify lukas-vlcek/bigdesk
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --no-verify lmenezes/elasticsearch-kopf
 
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --no-verify l https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v1.10.3/elasticsearch-analysis-ik-1.10.3.zip
+
 
 systemctl start elasticsearch
