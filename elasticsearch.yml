@@ -6,6 +6,7 @@ discovery.zen.ping.unicast.hosts: ["10.19.0.97","10.19.0.98","10.19.0.99","10.19
 path.data: /data/elasticsearch
 path.logs: /data/logs
 
+index.number_of_replicas: 1
 discovery.zen.minimum_master_nodes: 3
 discovery.zen.ping.multicast.enabled: false
 discovery.zen.ping.multicast.ping.enabled: false
