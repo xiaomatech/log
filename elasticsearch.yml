@@ -7,11 +7,16 @@ path.data: /data/elasticsearch
 path.logs: /data/logs
 
 #index.analysis.analyzer.default.type: ik
+index.refresh_interval: 300S
 index.cache.field.type: soft
 index.cache.field.expire: 10m
 index.store.compress.stored: true 
 index.store.compress.tv: true
-indices.store.throttle.max_bytes_per_sec: 100mb
+index.translog.flush_threshold_size: 4g
+index.translog.flush_threshold_ops: 50000
+indices.store.throttle.max_bytes_per_sec: 200mb
+
+threadpool.bulk.queue_size: 1000
 
 index.number_of_replicas: 1
 discovery.zen.minimum_master_nodes: 3
