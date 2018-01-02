@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+yum install -y fontconfig freetype
 version=6.1.1
 
 rpm -ivh https://artifacts.elastic.co/downloads/kibana/kibana-$version-x86_64.rpm
