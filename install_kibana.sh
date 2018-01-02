@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=5.1.1
+version=6.1.1
 
 rpm -ivh https://artifacts.elastic.co/downloads/kibana/kibana-$version-x86_64.rpm
 /usr/share/kibana/bin/kibana-plugin install https://github.com/elasticfence/kaae/releases/download/snapshot/kaae-latest.tar.gz
