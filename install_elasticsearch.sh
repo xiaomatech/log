@@ -9,4 +9,6 @@ rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ver
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$version/elasticsearch-analysis-ik-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
 
+#https://github.com/o19s/elasticsearch-learning-to-rank
+
 systemctl start elasticsearch
