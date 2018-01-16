@@ -1,0 +1,71 @@
+filebeat.modules:
+  - module: system
+    syslog:
+      enabled: true
+    auth:
+      enabled: true
+
+  - module: auditd
+    log:
+      enabled: true
+
+  - module: nginx
+    access:
+      enabled: true
+      var.paths: ["/data/logs/nginx/access.log*"]
+    error:
+      enabled: true
+      var.paths: ["/data/logs/nginx/error.log*"]
+  - module: mysql
+    error:
+      enabled: true
+      var.paths:
+        - /data/logs/mysql/error.log*
+        - /data/logs/mysqld.log*
+    slowlog:
+      enabled: true
+      var.paths:
+        - /data/logs/mysql/mysql-slow.log*
+        - /var/lib/mysql/{{.builtin.hostname}}-slow.logs
+  - module: redis
+    log:
+      enabled: true
+      var.paths:
+        - /data/logs/redis/redis-server.log*
+    log:
+      enabled: true
+      var.paths:
+        - /data/logs/redis/redis-server.log*
+    slowlog:
+      var.hosts:
+        - "localhost:6379"
+      var.password: ""
+
+output:
+  logstash:
+    hosts: ["logstash1.meizu.mz:5044","logstash2.meizu.mz:5044"]
+    bulk_max_size: 1024
+    index: filebeat
+
+  #output.elasticsearch:
+  #  hosts: ["http://es1.meizu.mz:9200","http://es2.meizu.mz:9200"]
+  #  index: "filebeat-%{+yyyy.MM.dd}"
+  #  pipelines:
+  #    - pipeline: critical_pipeline
+  #      when.equals:
+  #        fields.type: "critical"
+  #    - pipeline: normal_pipeline
+  #      when.equals:
+  #        fields.type: "normal"
+
+setup.kibana:
+  host: "kibana.meizu.mz:5601"
+
+logging:
+  # To enable logging to files, to_files option has to be set to true
+  to_files: true
+  to_syslog: false
+  files:
+    path: /var/log/filebeat
+    name: filebeat.log
+    rotateeverybytes: 10485760 # = 10MB
