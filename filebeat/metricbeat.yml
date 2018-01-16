@@ -261,9 +261,43 @@ metricbeat.modules:
   #namespace: example
 
 
+queue.mem:
+  events: 8192
+  flush.min_events: 512
+  flush.timeout: 5s
 
 output.elasticsearch:
   hosts: ["http://es1.meizu.mz:9200","http://es2.meizu.mz:9200"]
+  loadbalance: true
+  worker: 16
+
+#output.kafka:
+#  # initial brokers for reading cluster metadata
+#  hosts: ["kafka1:9092", "kafka2:9092", "kafka3:9092"]
+#  # message topic selection + partitioning
+#  topic: '%{[fields.log_topic]}'
+#  partition.round_robin:
+#    reachable_only: false
+#  required_acks: 1
+#  compression: snappy
+#  max_message_bytes: 1000000
 
 setup.kibana:
   host: "kibana.meizu.mz:5601"
+  enabled: true
+
+setup.template.name: "metricbeat"
+setup.template.fields: "fields.yml"
+setup.template.overwrite: false
+setup.template.settings:
+  index.number_of_shards: 32
+  index.number_of_replicas: 2
+
+logging.level: warning
+logging.to_files: true
+logging.to_syslog: false
+logging.files:
+  path: /var/log/metricbeat
+  name: metricbeat.log
+  keepfiles: 7
+  permissions: 0644
