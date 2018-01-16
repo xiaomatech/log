@@ -264,7 +264,6 @@ metricbeat.modules:
 
 output.elasticsearch:
   hosts: ["http://es1.meizu.mz:9200","http://es2.meizu.mz:9200"]
-  index: "metricbeat-%{+yyyy.MM.dd}"
 
 setup.kibana:
   host: "kibana.meizu.mz:5601"

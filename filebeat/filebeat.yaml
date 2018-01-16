@@ -49,7 +49,6 @@ output:
 
   #output.elasticsearch:
   #  hosts: ["http://es1.meizu.mz:9200","http://es2.meizu.mz:9200"]
-  #  index: "filebeat-%{+yyyy.MM.dd}"
   #  pipelines:
   #    - pipeline: critical_pipeline
   #      when.equals:
