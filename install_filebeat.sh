@@ -6,9 +6,13 @@ rpm -ivh https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-$version
 rpm -ivh https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-$version-x86_64.rpm
 
 #filebeat模块的配置在/etc/filebeat/modules.d/
+#https://www.elastic.co/guide/en/beats/filebeat/current/exported-fields.html
+#https://www.elastic.co/guide/en/beats/filebeat/current/configuring-howto-filebeat.html
 cp filebeat/filebeat.yaml /etc/filebeat/filebeat.yml
 
 #metricbeat模块的配置在 /etc/metricbeat/modules.d
+#https://www.elastic.co/guide/en/beats/metricbeat/current/exported-fields.html
+#https://www.elastic.co/guide/en/beats/metricbeat/current/configuring-howto-metricbeat.html
 cp filebeat/metricbeat.yml /etc/metricbeat/metricbeat.yml
 
 filebeat setup --dashboards
