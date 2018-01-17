@@ -1,3 +1,8 @@
+filebeat.prospectors:
+  - paths:
+      - /var/log/your-app/app.*.log
+    input_type: log
+
 filebeat.modules:
   - module: system
     syslog:
