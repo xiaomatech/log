@@ -1,0 +1,9 @@
+path.data: /var/lib/logstash
+path.config: /etc/logstash/conf.d/*.conf
+path.logs: /var/log/logstash
+pipeline.workers: 16
+pipeline.output.workers: 16
+pipeline.batch.size: 6000
+pipeline.batch.delay: 1
+queue.checkpoint.writes: 1
+queue.max_bytes: 1GB

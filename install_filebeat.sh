@@ -13,7 +13,7 @@ cp filebeat/filebeat.yaml /etc/filebeat/filebeat.yml
 
 #metricbeat模块的配置在 /etc/metricbeat/modules.d
 #https://www.elastic.co/guide/en/beats/metricbeat/current/exported-fields.html
-#https://www.elastic.co/guide/en/beats/metricbeat/current/defining-processors.html
+#https://www.elastic.co/guide/en/beats/metricbeat/current/configuring-howto-metricbeat.html
 #参考 /etc/metricbeat/metricbeat.reference.yml
 cp filebeat/metricbeat.yml /etc/metricbeat/metricbeat.yml
 
