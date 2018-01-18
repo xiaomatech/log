@@ -24,6 +24,7 @@ source /etc/profile.d/logstash
 
 nproc=$[`nproc`*2 -1]
 cp -r ./logstash/* /etc/logstash/
+
 echo -ne '''
 JAVACMD=/usr/bin/java
 LS_HOME=/usr/share/logstash
