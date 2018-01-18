@@ -104,4 +104,5 @@ thread_pool.bulk.queue_size: 6000
 
 sudo swapoff -a
 
+systemctl enable elasticsearch
 systemctl start elasticsearch

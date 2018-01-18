@@ -60,6 +60,8 @@ slowlog.threshold.warn: 2s
 slowlog.threshold.info: 1s
 slowlog.threshold.debug: 500ms
 slowlog.threshold.trace: 100ms
+config.reload.automatic: true
 '''> /etc/logstash/logstash.yml
 
+systemctl enable logstash
 systemctl start logstash

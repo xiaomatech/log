@@ -9,4 +9,5 @@ rpm -ivh https://artifacts.elastic.co/downloads/kibana/kibana-$version-x86_64.rp
 /usr/share/kibana/bin/kibana-plugin install https://github.com/sivasamyk/logtrail/releases/download/0.1.6/logtrail-5.x-0.1.6.zip
 /usr/share/kibana/bin/kibana-plugin install x-pack
 
+systemctl enable kibana
 systemctl start kibana

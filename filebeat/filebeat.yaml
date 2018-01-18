@@ -13,56 +13,42 @@ filebeat.prospectors:
   - type: log
     fields:
       service: python-service
-      log_type: logging
+      log_type: python-logging
     paths: ['/data/logs/python/*.log']
     multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
     multiline.negate: true
     multiline.match: after
+    exclude_files: [".gz$"]
 
   - type: log
     fields:
-      service: tomcat
-      log_type: log4j
+      service: spring-web
+      log_type: tomcat
     paths: ['/data/logs/tomcat/*.log']
     multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{3}'
     multiline.negate: true
     multiline.match: after
+    exclude_files: [".gz$"]
 
   - type: log
     paths: ['/data/logs/*-warg.log']
     fields:
-      service: warg
+      service: spring-web-access
       log_type: log4j
-    multiline.pattern: '^[^\[]'
-    multiline.negate: false
+    multiline.pattern: '^\['
+    multiline.negate: true
     multiline.match: after
+    exclude_files: [".gz$"]
 
   - type: log
-    paths: ['/data/logs/*.log']
+    paths: ['/data/logs/error*.log']
     fields:
-      service: web
+      service: spring-web-error
       log_type: log4j
-    multiline.pattern: '^[^\[]'
-    multiline.negate: false
-    multiline.match: after
-
-  - type: log
-    paths: ['/data/logs/proxy.log']
-    fields:
-      service: proxy
-      log_type: log4j
-    multiline.pattern: '^[^A-Z]|^$'
-    multiline.negate: false
-    multiline.match: after
-
-  - type: log
-    paths: ['/data/logs/api.log']
-    fields:
-      service: api
-      log_type: log4j
-    multiline.pattern: '^[^A-Z]|^$'
-    multiline.negate: false
-    multiline.match: after
+    multiline.pattern: "^\s"
+    multiline.negate: true
+    multiline.match: before
+    exclude_files: [".gz$"]
 
 filebeat.modules:
   - module: system
