@@ -13,8 +13,6 @@ pip install -U elasticsearch-curator
 
 #https://github.com/o19s/elasticsearch-learning-to-rank
 
-cp es_jvm.options /etc/elasticsearch/jvm.options
-
 mkdir -p /etc/sysctl.d
 echo "vm.max_map_count=262144" > /etc/sysctl.d/11-es.conf
 echo -ne '* soft nproc 8192 \nelasticsearch  -  nofile  65536' > /etc/security/limits.d/es.conf
@@ -39,6 +37,70 @@ ES_JAVA_OPTS="-verbose:gc -Xloggc:/var/log/elasticsearch/elasticsearch_gc.log -X
 MAX_LOCKED_MEMORY=unlimited
 MAX_MAP_COUNT=262144
 '''> /etc/sysconfig/elasticsearch
+
+memory=`free -g | awk 'NR==2{printf $2}'`g
+
+
+echo -ne '''
+-Xms'''$memory'''
+-Xmx'''$memory'''
+-XX:+UseConcMarkSweepGC
+-XX:CMSInitiatingOccupancyFraction=75
+-XX:+UseCMSInitiatingOccupancyOnly
+-XX:+AlwaysPreTouch
+-server
+-Xss1m
+-Djava.awt.headless=true
+-Dfile.encoding=UTF-8
+-Djna.nosys=true
+-XX:-OmitStackTraceInFastThrow
+-Dio.netty.noUnsafe=true
+-Dio.netty.noKeySetOptimization=true
+-Dio.netty.recycler.maxCapacityPerThread=0
+-Dlog4j.shutdownHookEnabled=false
+-Dlog4j2.disable.jmx=true
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-XX:+PrintGCDateStamps
+-XX:+PrintClassHistogram
+-XX:+PrintTenuringDistribution
+-XX:+PrintGCApplicationStoppedTime
+-XX:+UseGCLogFileRotation
+-XX:NumberOfGCLogFiles=32
+-XX:GCLogFileSize=128M
+'''> /etc/elasticsearch/jvm.options
+
+SERVER_IP=`/sbin/ifconfig  | grep 'inet'| grep -v '127.0.0.1' |head -n1 |tr -s ' '|cut -d ' ' -f3 | cut -d: -f2`
+hostname=`hostname -f`
+
+echo -ne '''
+cluster.name: logcenter
+node.name: '''$hostname'''
+network.host: '''$SERVER_IP'''
+discovery.zen.ping.unicast.hosts: ["10.19.0.97","10.19.0.98","10.19.0.99","10.19.0.100"]
+discovery.zen.minimum_master_nodes: 2
+path:
+  data:
+    - /data01/es
+    - /data02/es
+    - /data03/es
+    - /data04/es
+    - /data05/es
+    - /data06/es
+    - /data07/es
+    - /data08/es
+    - /data09/es
+    - /data10/es
+    - /data11/es
+    - /data12/es
+  logs: /var/log/elasticsearch
+
+bootstrap.system_call_filter: false
+bootstrap.memory_lock: true
+http.port: 9200
+thread_pool.bulk.queue_size: 6000
+''' > /etc/elasticsearch/elasticsearch.yml
 
 sudo swapoff -a
 

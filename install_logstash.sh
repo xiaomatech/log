@@ -20,8 +20,43 @@ source /etc/profile.d/logstash
 
 /usr/share/logstash/vendor/jruby/bin/jruby -S /usr/share/logstash/vendor/jruby/bin/gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 
+nproc=$[`nproc`*2 -1]
 cp -r ./logstash/* /etc/logstash/
-cp logstash_startup.options /etc/logstash/startup.options
-cp logstash.yaml /etc/logstash/logstash.yml
+echo -ne '''
+JAVACMD=/usr/bin/java
+LS_HOME=/usr/share/logstash
+LS_SETTINGS_DIR=/etc/logstash
+LS_OPTS="--path.settings ${LS_SETTINGS_DIR}"
+LS_JAVA_OPTS=""
+LS_USER=logstash
+LS_GROUP=logstash
+LS_PIDFILE=/var/run/logstash.pid
+LS_GC_LOG_FILE=/var/log/logstash/gc.log
+LS_OPEN_FILES=65536
+LS_NICE=19
+SERVICE_NAME="logstash"
+SERVICE_DESCRIPTION="logstash"
+LS_HEAP_SIZE=8g
+''' > /etc/logstash/startup.options
+
+echo -ne '''
+path.data: /var/lib/logstash
+dead_letter_queue.enable: true
+path.dead_letter_queue: /var/lib/logstash/dead_letter_queue
+path.config: /etc/logstash/conf.d
+path.logs: /var/log/logstash
+path.plugins: /usr/share/logstash/plugins
+pipeline.workers: '''$nproc'''
+pipeline.batch.size: 2000
+pipeline.batch.delay: 3
+queue.page_capacity: 256mb
+queue.max_bytes: 8gb
+queue.drain: true
+queue.type: memory
+slowlog.threshold.warn: 2s
+slowlog.threshold.info: 1s
+slowlog.threshold.debug: 500ms
+slowlog.threshold.trace: 100ms
+'''> /etc/logstash/logstash.yml
 
 systemctl start logstash
