@@ -1,7 +1,68 @@
 filebeat.prospectors:
-  - paths:
-      - /var/log/your-app/app.*.log
-    input_type: log
+  - type: log
+    paths:
+      - /data/logs/web.log
+    fields:
+        service: spring-service
+        log_type: log4j
+    multiline.pattern: '^[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}'
+    multiline.negate: true
+    multiline.match: after
+    exclude_files: [".gz$"]
+
+  - type: log
+    fields:
+      service: python-service
+      log_type: logging
+    paths: ['/data/logs/python/*.log']
+    multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  - type: log
+    fields:
+      service: tomcat
+      log_type: log4j
+    paths: ['/data/logs/tomcat/*.log']
+    multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{3}'
+    multiline.negate: true
+    multiline.match: after
+
+  - type: log
+    paths: ['/data/logs/*-warg.log']
+    fields:
+      service: warg
+      log_type: log4j
+    multiline.pattern: '^[^\[]'
+    multiline.negate: false
+    multiline.match: after
+
+  - type: log
+    paths: ['/data/logs/*.log']
+    fields:
+      service: web
+      log_type: log4j
+    multiline.pattern: '^[^\[]'
+    multiline.negate: false
+    multiline.match: after
+
+  - type: log
+    paths: ['/data/logs/proxy.log']
+    fields:
+      service: proxy
+      log_type: log4j
+    multiline.pattern: '^[^A-Z]|^$'
+    multiline.negate: false
+    multiline.match: after
+
+  - type: log
+    paths: ['/data/logs/api.log']
+    fields:
+      service: api
+      log_type: log4j
+    multiline.pattern: '^[^A-Z]|^$'
+    multiline.negate: false
+    multiline.match: after
 
 filebeat.modules:
   - module: system
@@ -21,6 +82,7 @@ filebeat.modules:
     error:
       enabled: true
       var.paths: ["/data/logs/nginx/error.log*"]
+
   - module: mysql
     error:
       enabled: true
