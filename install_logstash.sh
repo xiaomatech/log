@@ -45,10 +45,10 @@ echo -ne '''
 path.data: /var/lib/logstash
 dead_letter_queue.enable: true
 path.dead_letter_queue: /var/lib/logstash/dead_letter_queue
-path.config: /etc/logstash/conf.d
+path.config: /etc/logstash/conf.d/*.conf
 path.logs: /var/log/logstash
-path.plugins: /usr/share/logstash/plugins
 pipeline.workers: '''$nproc'''
+pipeline.output.workers: '''$nproc'''
 pipeline.batch.size: 2000
 pipeline.batch.delay: 3
 queue.page_capacity: 256mb
