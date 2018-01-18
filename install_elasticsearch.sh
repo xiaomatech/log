@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=6.1.1
+version=6.1.2
 
 rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$version.rpm
 /usr/share/elasticsearch/bin/elasticsearch-plugin install ingest-geoip

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+version=6.1.2
+
 yum install -y fontconfig freetype
-version=6.1.1
 
 rpm -ivh https://artifacts.elastic.co/downloads/kibana/kibana-$version-x86_64.rpm
 /usr/share/kibana/bin/kibana-plugin install https://github.com/elasticfence/kaae/releases/download/snapshot/kaae-latest.tar.gz

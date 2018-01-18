@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-yum install -y rsyslog-kafka rsyslog-mmjsonparse rsyslog-mmnormalize rsyslog-mmfields rsyslog-mmanon rsyslog-elasticsearch
+yum install -y rsyslog-kafka rsyslog-mmjsonparse rsyslog-mmnormalize rsyslog-mmfields rsyslog-mmanon
 
-cp  ./rsyslog.conf /etc/
-cp -r  ./rsyslog.d /etc/
-
-rpm -ivh ./rsyslog-mmgrok-hdfs-8.23.0-1.x86_64.rpm
+mkdir -p /data/rsyslog
+/bin/cp  ./rsyslog.conf /etc/
+/bin/cp -rf  ./rsyslog.d /etc/
 
 systemctl start rsyslog

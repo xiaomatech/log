@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=6.1.1
+version=6.1.2
 
 rpm -ivh https://artifacts.elastic.co/downloads/logstash/logstash-$version.rpm
 /usr/share/logstash/bin/logstash-plugin install logstash-output-opentsdb
@@ -14,8 +14,10 @@ rpm -ivh https://artifacts.elastic.co/downloads/logstash/logstash-$version.rpm
 sudo yum install -y GeoIP-data
 mkdir -p /data/logs/logstash
 
-echo -e "LOGSTASH_HOME=/usr/share/logstash\nJRUBY_HOME=$LOGSTASH_HOME/vendor/jruby">/etc/profile.d/logstash
+mkdir -p /etc/logstash/patterns
+/bin/cp -rf /usr/share/logstash/vendor/bundle/jruby/*/gems/logstash-patterns-core-*/patterns/* /etc/logstash/patterns/
 
+echo -ne "LOGSTASH_HOME=/usr/share/logstash\nJRUBY_HOME=\$LOGSTASH_HOME/vendor/jruby">/etc/profile.d/logstash
 source /etc/profile.d/logstash
 
 /usr/share/logstash/vendor/jruby/bin/jruby -S /usr/share/logstash/vendor/jruby/bin/gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
