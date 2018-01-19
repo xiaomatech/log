@@ -105,9 +105,11 @@ sudo swapoff -a
 systemctl enable elasticsearch
 systemctl start elasticsearch
 
-curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -H 'Content-Type: application/json' -d '{
-  "index.number_of_replicas" : "2",
-  "index.number_of_shards" : "64",
-  "index.routing_partition_size" : "2"
+curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type: application/json' -d '{
+    "index_patterns" : ["*"],
+    "settings" : {
+        "number_of_replicas" : 2,
+        "number_of_shards" : 64,
+        "routing_partition_size" : 2
+    }
 }'
-
