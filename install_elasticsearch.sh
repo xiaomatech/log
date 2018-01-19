@@ -98,6 +98,9 @@ bootstrap.system_call_filter: false
 bootstrap.memory_lock: true
 http.port: 9200
 thread_pool.bulk.queue_size: 6000
+
+node.attr.rack: rack1
+node.attr.size: big
 ''' > /etc/elasticsearch/elasticsearch.yml
 
 sudo swapoff -a
@@ -108,7 +111,7 @@ systemctl start elasticsearch
 curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type: application/json' -d '{
     "index_patterns" : ["*"],
     "settings" : {
-        "number_of_replicas" : 2,
+        "number_of_replicas" : 1,
         "number_of_shards" : 64,
         "routing_partition_size" : 2
     }
