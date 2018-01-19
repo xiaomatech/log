@@ -5,7 +5,7 @@ version=6.1.2
 rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$version.rpm
 /usr/share/elasticsearch/bin/elasticsearch-plugin install ingest-geoip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install ingest-user-agent
-/usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
+#/usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$version/elasticsearch-analysis-ik-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
 
@@ -31,9 +31,7 @@ RESTART_ON_UPGRADE=true
 PID_DIR=/var/run/elasticsearch
 JAVA_HOME=/usr/java/default
 ES_STARTUP_SLEEP_TIME=5
-ES_JAVA_OPTS="-verbose:gc -Xloggc:/var/log/elasticsearch/elasticsearch_gc.log -XX:-CMSConcurrentMTEnabled \
--XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps \
--XX:ErrorFile=/var/log/elasticsearch/elasticsearch_err.log -XX:ParallelGCThreads=8"
+ES_JAVA_OPTS="-Des.index.max_number_of_shards=128 -verbose:gc -Xloggc:/var/log/elasticsearch/elasticsearch_gc.log -XX:-CMSConcurrentMTEnabled -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:ErrorFile=/var/log/elasticsearch/elasticsearch_err.log -XX:ParallelGCThreads=8"
 MAX_LOCKED_MEMORY=unlimited
 MAX_MAP_COUNT=262144
 '''> /etc/sysconfig/elasticsearch
@@ -106,3 +104,10 @@ sudo swapoff -a
 
 systemctl enable elasticsearch
 systemctl start elasticsearch
+
+curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -H 'Content-Type: application/json' -d '{
+  "index.number_of_replicas" : "2",
+  "index.number_of_shards" : "64",
+  "index.routing_partition_size" : "2"
+}'
+
