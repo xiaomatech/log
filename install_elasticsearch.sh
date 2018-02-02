@@ -9,8 +9,6 @@ rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ver
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$version/elasticsearch-analysis-ik-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
 
-pip install -U elasticsearch-curator
-
 #https://github.com/o19s/elasticsearch-learning-to-rank
 
 mkdir -p /etc/sysctl.d
@@ -51,7 +49,9 @@ echo -ne '''
 -Djava.awt.headless=true
 -Dfile.encoding=UTF-8
 -Djna.nosys=true
+-Djdk.io.permissionsUseCanonicalPath=true
 -XX:-OmitStackTraceInFastThrow
+-Dio.netty.allocator.type=unpooled
 -Dio.netty.noUnsafe=true
 -Dio.netty.noKeySetOptimization=true
 -Dio.netty.recycler.maxCapacityPerThread=0
@@ -113,6 +113,6 @@ curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type:
     "settings" : {
         "number_of_replicas" : 1,
         "number_of_shards" : 64,
-        "routing_partition_size" : 2
+        "routing_partition_size" : 4
     }
 }'
