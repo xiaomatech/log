@@ -99,6 +99,8 @@ bootstrap.memory_lock: true
 http.port: 9200
 thread_pool.bulk.queue_size: 6000
 
+action.destructive_requires_name: true
+
 node.attr.rack: rack1
 node.attr.size: big
 ''' > /etc/elasticsearch/elasticsearch.yml
