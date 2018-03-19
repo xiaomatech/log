@@ -96,10 +96,18 @@ path:
 
 bootstrap.system_call_filter: false
 bootstrap.memory_lock: true
-http.port: 9200
-thread_pool.bulk.queue_size: 6000
+http.port: 920
 
 action.destructive_requires_name: true
+
+indices.requests.cache.size: 2%
+index.queries.cache.everything: true
+indices.breaker.fielddata.limit: 10%
+indices.fielddata.cache.size: 20%
+
+#queue_size = number of waiting requests
+thread_pool.search.queue_size: 5000
+thread_pool.bulk.queue_size: 500
 
 node.attr.rack: rack1
 node.attr.size: big
@@ -115,6 +123,19 @@ curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type:
     "settings" : {
         "number_of_replicas" : 1,
         "number_of_shards" : 64,
-        "routing_partition_size" : 4
+        "routing_partition_size" : 4,
+        "index.merge.policy": {
+          "index.merge.policy.segments_per_tier": 50,
+          "index.merge.policy.max_merge_at_once": 50,
+          "index.merge.policy.max_merged_segment": "1gb"
+        },
+        "persistent" : {
+            "cluster.routing.allocation.disk.watermark.low" : "70%",
+            "cluster.routing.allocation.disk.watermark.high" : "85%",
+            "indices.recovery.max_bytes_per_sec": "20mb"
+        },
+        "index.translog": {
+          "index.translog.durability": "async"
+        }
     }
 }'
