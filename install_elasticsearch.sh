@@ -125,9 +125,9 @@ curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type:
         "number_of_shards" : 64,
         "routing_partition_size" : 4,
         "index.merge.policy": {
-          "index.merge.policy.segments_per_tier": 50,
-          "index.merge.policy.max_merge_at_once": 50,
-          "index.merge.policy.max_merged_segment": "1gb"
+          "segments_per_tier": 50,
+          "max_merge_at_once": 50,
+          "max_merged_segment": "1gb"
         },
         "persistent" : {
             "cluster.routing.allocation.disk.watermark.low" : "70%",
