@@ -1,0 +1,13 @@
+{
+  "license":{
+    "uid":"test",
+    "type":"platinum",
+    "issue_date_in_millis":1515024000000,
+    "expiry_date_in_millis":4102416000000,
+    "max_nodes":100,
+    "issued_to":"test",
+    "issuer":"Web Form",
+    "signature":"111",
+    "start_date_in_millis":1515024000000
+    }
+}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version=6.1.2
+version=6.2.3
 
 rpm -ivh https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-$version-x86_64.rpm
 rpm -ivh https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-$version-x86_64.rpm

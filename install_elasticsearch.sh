@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-version=6.1.2
+version=6.2.3
 
 rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$version.rpm
 /usr/share/elasticsearch/bin/elasticsearch-plugin install ingest-geoip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install ingest-user-agent
-#/usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
+wget https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-$version.zip -O /tmp/x-pack-$version.zip
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch file:///tmp/x-pack-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$version/elasticsearch-analysis-ik-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
 
@@ -109,14 +110,19 @@ indices.fielddata.cache.size: 20%
 thread_pool.search.queue_size: 5000
 thread_pool.bulk.queue_size: 500
 
-node.attr.rack: rack1
-node.attr.size: big
+xpack.security.enabled: false
+
+node.attr.role: hot
 ''' > /etc/elasticsearch/elasticsearch.yml
 
 sudo swapoff -a
 
 systemctl enable elasticsearch
 systemctl start elasticsearch
+
+/usr/share/elasticsearch/bin/x-pack/setup-passwords auto -u 'http://'$SERVER_IP':9200'
+
+curl -XPUT -u test:test 'http://'$SERVER_IP':9200/_xpack/license?acknowledge=true' -d @license.json
 
 curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type: application/json' -d '{
     "index_patterns" : ["*"],
