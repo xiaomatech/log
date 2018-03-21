@@ -3,12 +3,12 @@
 version=6.2.3
 
 rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$version.rpm
-/usr/share/elasticsearch/bin/elasticsearch-plugin install ingest-geoip
-/usr/share/elasticsearch/bin/elasticsearch-plugin install ingest-user-agent
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch ingest-geoip
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch ingest-user-agent
 wget https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-$version.zip -O /tmp/x-pack-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --batch file:///tmp/x-pack-$version.zip
-/usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$version/elasticsearch-analysis-ik-$version.zip
-/usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$version/elasticsearch-analysis-ik-$version.zip
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
 
 #https://github.com/o19s/elasticsearch-learning-to-rank
 
