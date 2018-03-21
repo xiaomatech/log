@@ -3,11 +3,11 @@
 version=6.2.3
 
 rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$version.rpm
-/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch ingest-geoip
-/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch ingest-user-agent
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://artifacts.elastic.co/downloads/elasticsearch-plugins/ingest-geoip/ingest-geoip-$version.zip
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://artifacts.elastic.co/downloads/elasticsearch-plugins/ingest-user-agent/ingest-user-agent-$version.zip
 wget https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-$version.zip -O /tmp/x-pack-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --batch file:///tmp/x-pack-$version.zip
-/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$version/elasticsearch-analysis-ik-$version.zip
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch analysis-smartcn
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
 
 #https://github.com/o19s/elasticsearch-learning-to-rank
@@ -113,7 +113,50 @@ thread_pool.bulk.queue_size: 500
 xpack.security.enabled: false
 
 node.attr.role: hot
+
+xpack.monitoring.exporters:
+  logcenter:
+    type: http
+    auth.username: remote_monitor
+    auth.password: test
+
 ''' > /etc/elasticsearch/elasticsearch.yml
+
+
+#master node:
+    #node.master: true
+    #node.data: false
+    #node.ingest: false
+    #node.ml: false
+    #xpack.ml.enabled: true
+
+#data node:
+    #node.master: false
+    #node.data: true
+    #node.ingest: false
+    #node.ml: false
+
+#ingest node:
+    #node.master: false
+    #node.data: false
+    #node.ingest: true
+    #search.remote.connect: false
+    #node.ml: false
+
+#coordinating node
+    #node.master: false
+    #node.data: false
+    #node.ingest: false
+    #search.remote.connect: false
+    #node.ml: false
+
+#machine learning node
+    #node.master: false
+    #node.data: false
+    #node.ingest: false
+    #search.remote.connect: false
+    #node.ml: true
+    #xpack.ml.enabled: true
 
 sudo swapoff -a
 
@@ -122,7 +165,17 @@ systemctl start elasticsearch
 
 /usr/share/elasticsearch/bin/x-pack/setup-passwords auto -u 'http://'$SERVER_IP':9200'
 
-curl -XPUT -u test:test 'http://'$SERVER_IP':9200/_xpack/license?acknowledge=true' -d @license.json
+curl -XPUT -u elastic:test 'http://'$SERVER_IP':9200/_xpack/license?acknowledge=true' -d @license.json
+
+
+curl -XPOST 'http://'$SERVER_IP':9200/_xpack/security/user/remote_monitor?pretty' -H 'Content-Type: application/json' -d'
+{
+  "password" : "test",
+  "roles" : [ "remote_monitoring_agent"],
+  "full_name" : "Internal Agent For Remote Monitoring"
+}
+'
+
 
 curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type: application/json' -d '{
     "index_patterns" : ["*"],

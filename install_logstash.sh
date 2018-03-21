@@ -65,8 +65,9 @@ slowlog.threshold.trace: 100ms
 config.reload.automatic: true
 
 xpack.security.enabled: false
-xpack.monitoring.elasticsearch.username: test
+xpack.monitoring.elasticsearch.username: logstash_system
 xpack.monitoring.elasticsearch.password: test
+
 
 '''> /etc/logstash/logstash.yml
 

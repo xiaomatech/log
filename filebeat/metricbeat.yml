@@ -301,3 +301,11 @@ logging.files:
   name: metricbeat.log
   keepfiles: 7
   permissions: 0644
+
+
+xpack.monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: ["https://example.com:9200", "https://example2.com:9200"]
+    username: elastic
+    password: test

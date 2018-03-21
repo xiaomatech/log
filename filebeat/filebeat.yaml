@@ -142,6 +142,13 @@ setup.template.settings:
   index.number_of_shards: 32
   index.number_of_replicas: 2
 
+xpack.monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: ["https://example.com:9200", "https://example2.com:9200"]
+    username: elastic
+    password: test
+
 #filebeat.autodiscover:
 #  providers:
 #    - type: docker

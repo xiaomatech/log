@@ -13,7 +13,7 @@ wget https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-$version.zip -O 
 
 echo -ne '''
 xpack.security.enabled: false
-elasticsearch.username: test
+elasticsearch.username: kibana
 elasticsearch.password: test
 '''>/etc/kibana/kibana.yaml
 
