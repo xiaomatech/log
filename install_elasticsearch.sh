@@ -5,8 +5,7 @@ version=6.2.3
 rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$version.rpm
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://artifacts.elastic.co/downloads/elasticsearch-plugins/ingest-geoip/ingest-geoip-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://artifacts.elastic.co/downloads/elasticsearch-plugins/ingest-user-agent/ingest-user-agent-$version.zip
-wget https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-$version.zip -O /tmp/x-pack-$version.zip
-/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch file:///tmp/x-pack-$version.zip
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-$version.zip
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --batch analysis-smartcn
 /usr/share/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v$version/elasticsearch-analysis-pinyin-$version.zip
 
@@ -14,7 +13,7 @@ wget https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-$version.zip -O 
 
 mkdir -p /etc/sysctl.d
 echo "vm.max_map_count=262144" > /etc/sysctl.d/11-es.conf
-echo -ne '* soft nproc 8192 \nelasticsearch  -  nofile  65536' > /etc/security/limits.d/es.conf
+echo -ne '* soft nproc 8192 \nelasticsearch  -  nofile  65536 \nelasticsearch soft memlock unlimited \nelasticsearch hard memlock unlimited' > /etc/security/limits.d/es.conf
 
 echo -ne '''
 ES_HOME=/usr/share/elasticsearch/
@@ -97,28 +96,20 @@ path:
 
 bootstrap.system_call_filter: false
 bootstrap.memory_lock: true
-http.port: 920
+http.port: 9200
 
 action.destructive_requires_name: true
 
 indices.requests.cache.size: 2%
-index.queries.cache.everything: true
 indices.breaker.fielddata.limit: 10%
 indices.fielddata.cache.size: 20%
 
-#queue_size = number of waiting requests
 thread_pool.search.queue_size: 5000
 thread_pool.bulk.queue_size: 500
 
 xpack.security.enabled: false
 
 node.attr.role: hot
-
-xpack.monitoring.exporters:
-  logcenter:
-    type: http
-    auth.username: remote_monitor
-    auth.password: test
 
 ''' > /etc/elasticsearch/elasticsearch.yml
 
@@ -196,6 +187,7 @@ curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type:
         "index.translog": {
           "index.translog.durability": "async"
         },
+        "index.queries.cache.everything": true,
         "index.indexing.slowlog.level" : "info",
         "index.indexing.slowlog.source" : "1000",
         "index.indexing.slowlog.threshold.index.debug" : "2s",
