@@ -1,13 +1,13 @@
 {
-  "license":{
-    "uid":"test",
-    "type":"platinum",
-    "issue_date_in_millis":1515024000000,
-    "expiry_date_in_millis":4102416000000,
-    "max_nodes":100000,
-    "issued_to":"test",
-    "issuer":"Web Form",
-    "signature":"111",
-    "start_date_in_millis":1515024000000
-    }
+  "license": {
+    "uid": "b9e226d1-ae19-4d05-a238-f7a9e9177c27",
+    "type": "platinum",
+    "issue_date_in_millis": 1521676800000,
+    "expiry_date_in_millis": 4102416000000,
+    "max_nodes": 100000,
+    "issued_to": "xiaomatech",
+    "issuer": "Web Form",
+    "signature": "AAAAAwAAAA3nnDuu5y7pFV6VEgwbAAABmC9ZN0hjZDBGYnVyRXpCOW5Bb3FjZDAxOWpSbTVoMVZwUzRxVk1PSmkxaktJRVl5MUYvUWh3bHZVUTllbXNPbzBUemtnbWpBbmlWRmRZb25KNFlBR2x0TXc2K2p1Y1VtMG1UQU9TRGZVSGRwaEJGUjE3bXd3LzRqZ05iLzRteWFNekdxRGpIYlFwYkJiNUs0U1hTVlJKNVlXekMrSlVUdFIvV0FNeWdOYnlESDc3MWhlY3hSQmdKSjJ2ZTcvYlBFOHhPQlV3ZHdDQ0tHcG5uOElCaDJ4K1hob29xSG85N0kvTWV3THhlQk9NL01VMFRjNDZpZEVXeUtUMXIyMlIveFpJUkk2WUdveEZaME9XWitGUi9WNTZVQW1FMG1DenhZU0ZmeXlZakVEMjZFT2NvOWxpZGlqVmlHNC8rWVVUYzMwRGVySHpIdURzKzFiRDl4TmM1TUp2VTBOUlJZUlAyV0ZVL2kvVk10L0NsbXNFYVZwT3NSU082dFNNa2prQ0ZsclZ4NTltbU1CVE5lR09Bck93V2J1Y3c9PQAAAQCeNSwESKwTxifEoHKocUVeJGLgeV+w9R1ISSVMprGzUFCNmgnMEbWh9mKJjhdIrV5CnbHlIU0exYwfMDdg2gyO+IKqDEycgAFnRIyPwbSjqjAhYN/V1IdELwdiUlLKjIy+FQ5c8qmOHbKHltiIb8VpggnCjhm74+JVvLGvHcaaM5Chg10tLjd51DUt/QXfGYRhnTfBZWw7m6ZlE0VreXrAb1al3H4zr5WVK5B82rrqqEj+zhzZqdF1F4cmMqt1Z5/hbzQGSOUc/g5r8KfVxJIeZamE8fqrN3IypZtjOWlkYfd6DHBgdm0EJPlela9jR1XfP9hmk1a9NlZ4teuc27gb",
+    "start_date_in_millis": 1521676800000
+  }
 }
