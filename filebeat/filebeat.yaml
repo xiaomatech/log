@@ -145,7 +145,7 @@ setup.template.settings:
 xpack.monitoring:
   enabled: true
   elasticsearch:
-    hosts: ["https://example.com:9200", "https://example2.com:9200"]
+    hosts: ["http://example.com:9200", "http://example2.com:9200"]
     username: elastic
     password: test
 

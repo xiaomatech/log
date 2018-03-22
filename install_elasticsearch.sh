@@ -156,7 +156,7 @@ systemctl start elasticsearch
 
 /usr/share/elasticsearch/bin/x-pack/setup-passwords auto -u 'http://'$SERVER_IP':9200'
 
-curl -XPUT -u elastic:test 'http://'$SERVER_IP':9200/_xpack/license?acknowledge=true' -d @license.json
+curl -XPUT -u elastic:test -H 'Content-Type: application/json' 'http://'$SERVER_IP':9200/_xpack/license?acknowledge=true' -d @license.json
 
 
 curl -XPOST 'http://'$SERVER_IP':9200/_xpack/security/user/remote_monitor?pretty' -H 'Content-Type: application/json' -d'
