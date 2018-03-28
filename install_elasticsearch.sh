@@ -109,6 +109,10 @@ thread_pool.bulk.queue_size: 500
 
 xpack.security.enabled: false
 
+gateway.recover_after_time: 5m
+
+cluster.routing.allocation.same_shard.host: true
+
 node.attr.role: hot
 
 ''' > /etc/elasticsearch/elasticsearch.yml
@@ -180,13 +184,15 @@ curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type:
           "max_merged_segment": "1gb"
         },
         "persistent" : {
-            "cluster.routing.allocation.disk.watermark.low" : "70%",
-            "cluster.routing.allocation.disk.watermark.high" : "85%",
-            "indices.recovery.max_bytes_per_sec": "20mb"
+            "cluster.routing.allocation.disk.watermark.high" : "98%",
+            "indices.recovery.max_bytes_per_sec": "20mb",
+            "indices.store.throttle.max_bytes_per_sec" : "100mb"
         },
         "index.translog": {
           "index.translog.durability": "async"
         },
+        "refresh_interval": "30s",
+        index.merge.scheduler.max_thread_count: 1,
         "index.queries.cache.everything": true,
         "index.indexing.slowlog.level" : "info",
         "index.indexing.slowlog.source" : "1000",
