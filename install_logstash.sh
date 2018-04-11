@@ -58,14 +58,16 @@ queue.drain: true
 queue.type: memory
 slowlog.threshold.warn: 2s
 slowlog.threshold.info: 1s
-slowlog.threshold.debug: 500ms
+slowlog.threshold.debug: 500ms,
 slowlog.threshold.trace: 100ms
 config.reload.automatic: true
 
 xpack.security.enabled: false
-xpack.monitoring.elasticsearch.username: logstash_system
-xpack.monitoring.elasticsearch.password: test
-
+xpack.monitoring.elasticsearch.url: http://elasticsearch:9200
+xpack.management.enabled: true
+xpack.management.elasticsearch.url: http://elasticsearch:9200
+xpack.management.logstash.poll_interval: 5s
+xpack.management.pipeline.id: ["nginx_log", "java_log", "mysql_log"]
 
 '''> /etc/logstash/logstash.yml
 

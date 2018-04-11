@@ -105,7 +105,7 @@ indices.breaker.fielddata.limit: 10%
 indices.fielddata.cache.size: 20%
 
 thread_pool.search.queue_size: 5000
-thread_pool.bulk.queue_size: 500
+thread_pool.bulk.queue_size: 6000
 
 xpack.security.enabled: false
 
@@ -113,8 +113,13 @@ gateway.recover_after_time: 5m
 
 cluster.routing.allocation.same_shard.host: true
 
+indices.recovery.max_bytes_per_sec: 200mb
+indices.memory.index_buffer_size: 20%
+
 node.attr.role: hot
 
+#gateway.recover_after_data_nodes: 7
+#gateway.recover_after_master_nodes: 2
 ''' > /etc/elasticsearch/elasticsearch.yml
 
 
@@ -174,10 +179,12 @@ curl -XPOST 'http://'$SERVER_IP':9200/_xpack/security/user/remote_monitor?pretty
 
 curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type: application/json' -d '{
     "index_patterns" : ["*"],
+    "order": 0,
+    "template": "*",
     "settings" : {
-        "number_of_replicas" : 1,
-        "number_of_shards" : 64,
-        "routing_partition_size" : 4,
+        "index.number_of_replicas" : 1,
+        "index.number_of_shards" : 64,
+        "index.routing_partition_size" : 4,
         "index.merge.policy": {
           "segments_per_tier": 50,
           "max_merge_at_once": 50,
@@ -185,14 +192,15 @@ curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type:
         },
         "persistent" : {
             "cluster.routing.allocation.disk.watermark.high" : "98%",
-            "indices.recovery.max_bytes_per_sec": "20mb",
+            "indices.recovery.max_bytes_per_sec": "200mb",
             "indices.store.throttle.max_bytes_per_sec" : "100mb"
         },
-        "index.translog": {
-          "index.translog.durability": "async"
-        },
-        "refresh_interval": "30s",
-        index.merge.scheduler.max_thread_count: 1,
+        "index.translog.flush_threshold_size":"1gb",
+        "index.translog.sync_interval":"30s",
+        "index.translog.durability": "async",
+        "index.refresh_interval": "30s",
+        "index.merge.scheduler.max_thread_count": 1,
+        "indices.memory.index_buffer_size":"20%",
         "index.queries.cache.everything": true,
         "index.indexing.slowlog.level" : "info",
         "index.indexing.slowlog.source" : "1000",
@@ -209,6 +217,20 @@ curl -XPUT 'http://'$SERVER_IP':9200/_template/index_template' -H 'Content-Type:
         "index.search.slowlog.threshold.query.info" : "5s",
         "index.search.slowlog.threshold.query.trace" : "500ms",
         "index.search.slowlog.threshold.query.warn" : "10s"
-
-    }
+    },
+    "mappings": {
+        "_default_": {
+          "dynamic_templates": [
+            {
+              "strings_as_keywords": {
+                "mapping": {
+                  "index": "not_analyzed"
+                },
+                "match_mapping_type": "string"
+              }
+            }
+          ]
+        }
+    },
+    "aliases": {}
 }'
