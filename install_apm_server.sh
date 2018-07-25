@@ -10,6 +10,7 @@ apm-server:
   frontend:
     enabled: true
 
+setup.template.enabled: true
 setup.template.settings:
   index:
     number_of_shards: 16
@@ -21,6 +22,7 @@ setup.kibana:
 output.elasticsearch:
   hosts: ["ElasticsearchAddress:9200"]
   worker: 8
+  bulk_max_size: 5120
   username: "elastic"
   password: "elastic"
   indices:
